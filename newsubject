@@ -1,0 +1,80 @@
+#!/bin/sh
+
+# newsubject - simple notes management
+#
+# Creates a new subject folder in 
+# the document system root
+# 
+# Environment variables used:
+#
+# - $document_root : root folder of the document system
+# 
+#
+# Parameters:
+# - root    ( -r, --root )    : the root folder that subjects are created in
+# - subject ( -s, --subject ) : the name of the subject
+
+display_help()
+{
+    echo 'newsubject - simple notes management 
+    echo ''
+    echo 'Creates a new subject folder in '
+    echo 'the document system root'
+    echo ''
+    echo 'Environment variables used:'
+    echo ''
+    echo '- $document_root : root folder of the document system'
+    echo ''
+    echo ''
+    echo 'Parameters:'
+    echo '- root    ( -r, --root )    : the root folder that subjects are created in'
+    echo '- subject ( -s, --subject ) : the name of the subject'
+    echo ''
+    echo ''
+    echo 'usage: '
+    echo '  newsubject -r ~/my/subjects -s algorithms'
+    echo '  newsubject --root ~/my/subjects -s algorithms'
+    echo ''
+    echo ''
+    echo "usage (if document_root environment variable set):"
+    echo '  newsubject -s "subject"'
+    echo '  newsubject --subject "subject"'
+}
+
+root="$document_root"
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        -r|--root)
+            root=$2
+            shift
+            shift
+            ;;
+        -s|--subject)
+            subject=$2
+            shift
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done 
+
+if [ -z $root ]; then
+    display_help
+    exit 1
+fi
+
+if [ -z $subject ]; then
+    display_help
+    exit 1
+fi
+
+
+subjectdir="$root/$subject"
+
+mkdir -p "$subjectdir/notes"
+mkdir -p "$subjectdir/papers"
+mkdir -p "$subjectdir/presentations"
+mkdir -p "$subjectdir/sandboxes"

@@ -1,0 +1,71 @@
+#!/bin/sh
+
+# gotosubject - simple notes management system
+#
+# goes to the root folder of a subject 
+# 
+# Environment variables used:
+#
+# - $document_root : root folder of the document system
+# 
+#
+# Parameters:
+# - root    ( -r, --root )    : the root folder that subjects are created in
+
+display_help()
+{
+    echo 'gotosubject - simple notes management system'
+    echo ''
+    echo 'Go to the root folder of a subject'
+    echo ''
+    echo 'Environment variables used:'
+    echo ''
+    echo '- $document_root : root folder of the document system'
+    echo ''
+    echo ''
+    echo 'Parameters:'
+    echo '- root    ( -r, --root )    : the root folder that subjects are created in'
+    echo ''
+    echo '- subject ( -s, --subject ) : the subject that you want to go to'
+    echo ''
+    echo 'usage: '
+    echo '  gotosubject -r ~/my/subjects -s logic'
+    echo '  gotosubject --root ~/my/subjects --subject logic'
+    echo ''
+    echo ''
+    echo "usage (if document_root environment variable set):"
+    echo '  gotosubject -s logic
+    echo '  gotosubject --subject logic
+}
+
+root="$document_root"
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        -r|--root)
+            root=$2
+            shift
+            shift
+            ;;
+        -s|--subject)
+            subject=$2
+            shift
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done 
+
+if [ -z $root ]; then
+    display_help
+    exit 1
+fi
+
+if [ -z $subject ]; then
+    display_help
+    exit 1
+fi
+
+cd "$root/$subject"

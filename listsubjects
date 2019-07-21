@@ -1,0 +1,60 @@
+#!/bin/sh
+
+# listsubjects - simple notes management system
+#
+# list all the subjects in a document root 
+# 
+# Environment variables used:
+#
+# - $document_root : root folder of the document system
+# 
+#
+# Parameters:
+# - root    ( -r, --root )    : the root folder that subjects are created in
+
+display_help()
+{
+    echo 'listsubjects - simple notes management system'
+    echo ''
+    echo 'List all the subject in the document root'
+    echo ''
+    echo 'Environment variables used:'
+    echo ''
+    echo '- $document_root : root folder of the document system'
+    echo ''
+    echo ''
+    echo 'Parameters:'
+    echo '- root    ( -r, --root )    : the root folder that subjects are created in'
+    echo ''
+    echo ''
+    echo 'usage: '
+    echo '  listsubjects -r ~/my/subjects'
+    echo '  listsubjects --root ~/my/subjects'
+    echo ''
+    echo ''
+    echo "usage (if document_root environment variable set):"
+    echo '  listsubjects
+    echo '  listsubjects
+}
+
+root="$document_root"
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        -r|--root)
+            root=$2
+            shift
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done 
+
+if [ -z $root ]; then
+    display_help
+    exit 1
+fi
+
+ls $root
